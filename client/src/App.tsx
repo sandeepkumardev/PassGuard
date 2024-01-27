@@ -1,22 +1,27 @@
 import React from "react";
 import "./App.css";
-import { Book, useGetBooksQuery } from "./api";
+import { Box, Container, VStack } from "@chakra-ui/react";
+import InputContainer from "./components/InputContainer";
+import ListAllItems from "./components/ListAllItems";
 
 function App() {
-  const { loading, data, error } = useGetBooksQuery();
-
-  if (loading) return <p>loading...</p>;
-  if (error) return <p>Error : {error.message}</p>;
-
   return (
-    <ul>
-      {data?.books?.map((book: Book) => (
-        <li key={book.title}>
-          Title: {book.title}, Author: {book.author}
-        </li>
-      ))}
-    </ul>
+    <Container maxW="container.md" minW="310px" p={2} shadow={"md"}>
+      <VStack>
+        <Item />
+        <Item />
+      </VStack>
+    </Container>
   );
 }
+
+const Item = () => {
+  return (
+    <Box w="100%" p={4} shadow={"md"}>
+      <InputContainer />
+      <ListAllItems />
+    </Box>
+  );
+};
 
 export default App;
