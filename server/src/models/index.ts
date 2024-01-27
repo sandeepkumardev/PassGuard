@@ -3,8 +3,7 @@ import { DataTypes } from "sequelize";
 
 const Domain = sequelize.define("domain", {
   id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUID,
+    type: DataTypes.BIGINT,
     primaryKey: true,
     allowNull: false,
   },
