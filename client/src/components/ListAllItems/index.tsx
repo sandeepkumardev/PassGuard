@@ -1,4 +1,6 @@
 import {
+  Box,
+  Collapse,
   Tab,
   TabList,
   TabPanel,
@@ -19,16 +21,16 @@ const ListAllItems = () => {
           {show ? "Hide" : "Show"}
         </Tab>
       </TabList>
-      <TabPanels
-        h={show ? "auto" : 0}
-        overflow={"hidden"}
-        className={`animate__animated ${show && "animate__fadeIn"}`}
-      >
+      <TabPanels>
         <TabPanel p={2} pb={0}>
-          <SingleTag />
-          <SingleTag />
-          <SingleTag />
-          <SingleTag />
+          <Collapse in={show} animateOpacity>
+            <Box>
+              <SingleTag />
+              <SingleTag />
+              <SingleTag />
+              <SingleTag />
+            </Box>
+          </Collapse>
         </TabPanel>
       </TabPanels>
     </Tabs>
