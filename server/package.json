@@ -5,7 +5,7 @@
   "main": "dist/app.js",
   "scripts": {
     "dev": "nodemon src/app.ts",
-    "start": "node src/app.ts"
+    "start": "tsc && node dist/app.js"
   },
   "keywords": [],
   "author": "sandeep-kumar",
