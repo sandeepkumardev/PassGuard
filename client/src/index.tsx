@@ -8,7 +8,7 @@ import StoreProvider from "./context";
 import ActionsProvider from "./context/actions";
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_API_URL,
+  uri: "http://localhost:4000/graphql",
   cache: new InMemoryCache(),
 });
 

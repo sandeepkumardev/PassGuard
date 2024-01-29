@@ -2,7 +2,7 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
 module.exports = {
-  schema: process.env.REACT_APP_API_URL,
+  schema: "http://localhost:4000/graphql",
   documents: ["./src/api/*.graphql"],
   overwrite: true,
   generates: {
