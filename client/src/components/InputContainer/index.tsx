@@ -8,6 +8,7 @@ import {
   InputGroup,
   InputLeftAddon,
   InputRightElement,
+  Link,
   Spinner,
   Stack,
   Text,
@@ -94,10 +95,18 @@ const InputContainer = ({ data }: { data: Domain }) => {
     return () => clearTimeout(getData);
   }, [input]);
 
+  const regex = /^https?:\/\//;
+
   return (
     <Stack userSelect={"none"}>
       <InputGroup>
-        <InputLeftAddon>{data.name}</InputLeftAddon>
+        {regex.test(`${data.name}`) ? (
+          <Link href={`${data.name}`} isExternal>
+            <InputLeftAddon>{data.name}</InputLeftAddon>
+          </Link>
+        ) : (
+          <InputLeftAddon>{data.name}</InputLeftAddon>
+        )}
         <InputLeftAddon
           px={2}
           bg={"#f6f6f6"}
