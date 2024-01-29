@@ -10,6 +10,7 @@ export default gql`
     id: ID
     name: String
     usedPW: [String]
+    password: String
     createdAt: String
     updatedAt: String
     deletedAt: String
@@ -29,8 +30,9 @@ export default gql`
 
   type Mutation {
     newDomain(name: String!): Domain
+    isPasswordExist(id: ID!, password: String!): affectedRows!
     addPassword(id: ID!, password: String!): affectedRows!
-    removeDomain(id: ID!): affectedRows!
+    removeDomain(id: ID!, password: String!): affectedRows!
     destroyDomain(id: ID!): affectedRows!
   }
 `;
