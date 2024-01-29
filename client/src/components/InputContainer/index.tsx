@@ -174,7 +174,7 @@ const InputContainer = ({ data }: { data: Domain }) => {
             shadow={"md"}
             onClick={handlePassword}
           >
-            Failed try
+            Failed attempt
           </Button>
           <Button
             isDisabled={input.trim() == "" || (isError && true)}
