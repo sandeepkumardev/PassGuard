@@ -29,7 +29,7 @@ Forgetting passwords is a common inconvenience faced by many individuals. This d
 
 1. <b>Creating a New Item (Domain):</b>
 
-   - Click the "+" icon located in the header to initiate the process of adding a new item.
+   - Click the <code>+</code> icon located in the header to initiate the process of adding a new item.
    - Enter the relevant domain name or identifier for the password being managed.
 
 2. <b>Entering Passwords:</b>
