@@ -65,8 +65,10 @@ const ActionsProvider = ({ children }: IChildren) => {
     <AppActions.Provider
       value={{
         deleteModal,
+        //@ts-ignore
         handleDeleteModal,
         resolvedModal,
+        //@ts-ignore
         handleResolvedModal,
         toast,
         handleToast,

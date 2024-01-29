@@ -34,17 +34,19 @@ async function startApolloServer() {
   app.use(cors());
   app.use(middleware);
 
-  app.use(express.static(path.join(__dirname)));
+  app.use(express.static(path.join(__dirname, "../client", "build")));
 
   app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client", "build", "index.html"));
+    res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
   });
 
-  // app.get("/", (req: any, res: any) => {
-  //   res.send("Hello");
-  // });
+  app.get("/test", (req, res) => {
+    res.send("Test route");
+  });
 
-  app.listen({ port: 4000 });
+  var port = process.env.PORT || 4000;
+
+  app.listen({ port });
   console.log("🚀 Server ready at -", {
     REST: `http://localhost:4000`,
     Graphql: `http://localhost:4000${server.graphqlPath}`,

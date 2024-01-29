@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon src/app.ts",
     "start": "tsc && node dist/app.js",
-    "build": "cd ../client && npm run build && cd .. && cd server && tsc"
+    "client:build": "cd ./client && npm run build && cd .. && npm run start",
+    "build": "cd ./client && npm run build && cd .. && tsc"
   },
   "keywords": [],
   "author": "sandeep-kumar",

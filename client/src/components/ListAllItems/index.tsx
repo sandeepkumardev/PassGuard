@@ -33,6 +33,7 @@ const ListAllItems = ({ data }: { data: Domain }) => {
               {data.usedPW &&
                 [...data.usedPW]
                   .reverse()
+                  //@ts-ignore
                   .map((item: string) => <SingleTag key={item} name={item} />)}
             </Box>
           </Collapse>

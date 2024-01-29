@@ -67,8 +67,17 @@ const StoreProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    //@ts-ignore
-    const { status } = JSON.parse(localStorage.getItem("include_resolved"));
+    const data = localStorage.getItem("include_resolved");
+
+    if (!data) {
+      localStorage.setItem(
+        "include_resolved",
+        JSON.stringify({ status: false })
+      );
+      return;
+    }
+
+    const { status } = JSON.parse(data || "");
     setIsResolved(status);
   }, []);
 
