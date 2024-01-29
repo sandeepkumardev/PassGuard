@@ -7,6 +7,7 @@ import typeDefs from "./typeDefs";
 import middleware from "./middleware";
 import cors from "cors";
 import { sequelize } from "./config/db";
+import path from "path";
 
 async function startApolloServer() {
   await sequelize
@@ -33,9 +34,15 @@ async function startApolloServer() {
   app.use(cors());
   app.use(middleware);
 
-  app.get("/", (req: any, res: any) => {
-    res.send("Hello");
+  app.use(express.static(path.join(__dirname)));
+
+  app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client", "build", "index.html"));
   });
+
+  // app.get("/", (req: any, res: any) => {
+  //   res.send("Hello");
+  // });
 
   app.listen({ port: 4000 });
   console.log("🚀 Server ready at -", {
