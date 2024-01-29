@@ -30,9 +30,10 @@ const ListAllItems = ({ data }: { data: Domain }) => {
             <Box>
               {!data.usedPW && !data.password && <Text>No history yet!</Text>}
               {data.password && <SingleTag name={data.password} bg="green" />}
-              {data.usedPW?.map((item: string) => (
-                <SingleTag key={item} name={item} />
-              ))}
+              {data.usedPW &&
+                [...data.usedPW]
+                  .reverse()
+                  .map((item: string) => <SingleTag key={item} name={item} />)}
             </Box>
           </Collapse>
         </TabPanel>
