@@ -83,6 +83,7 @@ const StoreProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     fn({ variables: { isDeleted: isResolved }, canonizeResults: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isResolved]);
 
   useEffect(() => {

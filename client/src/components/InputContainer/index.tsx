@@ -45,7 +45,7 @@ const InputContainer = ({ data }: { data: Domain }) => {
         },
       });
 
-      if (response.data?.addPassword.affectedCount == 1) {
+      if (response.data?.addPassword.affectedCount === 1) {
         addPassword(`${data.id}`, input);
         setInput("");
       } else {
@@ -65,7 +65,7 @@ const InputContainer = ({ data }: { data: Domain }) => {
       },
     });
 
-    if (response.data?.isPasswordExist.affectedCount == 1) {
+    if (response.data?.isPasswordExist.affectedCount === 1) {
       setError(true);
     } else {
       setError(false);
@@ -74,7 +74,7 @@ const InputContainer = ({ data }: { data: Domain }) => {
   };
 
   const handleCopy = () => {
-    if (input.trim() == "") return;
+    if (input.trim() === "") return;
 
     navigator.clipboard.writeText(input);
     handleToast(true, true, "Copied to clipboard!");
@@ -144,7 +144,7 @@ const InputContainer = ({ data }: { data: Domain }) => {
         )}
         <HStack>
           <Button
-            isDisabled={input.trim() == "" && true}
+            isDisabled={input.trim() === "" && true}
             colorScheme="orange"
             h="1.75rem"
             size="sm"
@@ -154,7 +154,7 @@ const InputContainer = ({ data }: { data: Domain }) => {
             Failed attempt
           </Button>
           <Button
-            isDisabled={input.trim() == "" || (isError && true)}
+            isDisabled={input.trim() === "" || (isError && true)}
             colorScheme="whatsapp"
             h="1.75rem"
             size="sm"

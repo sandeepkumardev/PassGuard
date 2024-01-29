@@ -31,7 +31,7 @@ const ConfirmResolved = () => {
         },
       });
 
-      if (response.data?.removeDomain.affectedCount == 1) {
+      if (response.data?.removeDomain.affectedCount === 1) {
         deleteDomain(`${resolvedModal.data?.id}`);
         handleToast(true, true, "Successfully resolved!");
       } else {

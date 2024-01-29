@@ -1,9 +1,7 @@
+import React from "react";
 import {
   Badge,
-  Box,
   Button,
-  Center,
-  Flex,
   Kbd,
   Modal,
   ModalBody,
@@ -15,7 +13,6 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import React from "react";
 import { useActions } from "../../context/actions";
 import { useDeleteDomainMutation } from "../../api";
 import { useStore } from "../../context";
@@ -33,7 +30,7 @@ const ConfirmDelete = () => {
         },
       });
 
-      if (response.data?.destroyDomain.affectedCount == 1) {
+      if (response.data?.destroyDomain.affectedCount === 1) {
         deleteDomain(`${deleteModal.data?.id}`);
         handleToast(true, true, "Successfully deleted!");
       } else {
