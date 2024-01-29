@@ -1,7 +1,6 @@
 import { CheckIcon, CopyIcon, DeleteIcon } from "@chakra-ui/icons";
 import {
   Button,
-  Divider,
   Flex,
   HStack,
   IconButton,
@@ -17,55 +16,19 @@ import React, { useState } from "react";
 import {
   Domain,
   useAddPasswordMutation,
-  useDeleteDomainMutation,
   useIsPasswordExistMutation,
-  useRemoveDomainMutation,
 } from "../../api";
 import { useStore } from "../../context";
+import { useActions } from "../../context/actions";
 
 const InputContainer = ({ data }: { data: Domain }) => {
-  const { deleteDomain, addPassword } = useStore();
+  const { handleDeleteModal, handleResolvedModal } = useActions();
+  const { addPassword } = useStore();
   const [isPasswordExistGQL] = useIsPasswordExistMutation();
-  const [removeDomainGQL] = useRemoveDomainMutation();
-  const [deleteDomainGQL] = useDeleteDomainMutation();
   const [addPasswordGQL] = useAddPasswordMutation();
   const [isError, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState("");
-
-  const handleDelete = async () => {
-    const response = await deleteDomainGQL({
-      variables: {
-        deleteDomainId: `${data.id}`,
-      },
-    });
-
-    if (response.data?.destroyDomain.affectedCount == 1) {
-      deleteDomain(`${data.id}`);
-    } else {
-      console.log("something went wrong!");
-    }
-  };
-
-  const handleRemove = async () => {
-    if (input.trim() === "" || isError) {
-      setInput("");
-      return;
-    }
-
-    const response = await removeDomainGQL({
-      variables: {
-        removeDomainId: `${data.id}`,
-        password: input.trim(),
-      },
-    });
-
-    if (response.data?.removeDomain.affectedCount == 1) {
-      deleteDomain(`${data.id}`);
-    } else {
-      console.log("something went wrong!");
-    }
-  };
 
   const handlePassword = async () => {
     if (input.trim() === "" || isError) {
@@ -182,7 +145,7 @@ const InputContainer = ({ data }: { data: Domain }) => {
             h="1.75rem"
             size="sm"
             shadow={"md"}
-            onClick={handleRemove}
+            onClick={() => handleResolvedModal(data, input)}
           >
             Resolved
           </Button>
@@ -191,7 +154,7 @@ const InputContainer = ({ data }: { data: Domain }) => {
             size="sm"
             colorScheme="red"
             aria-label="delete"
-            onClick={handleDelete}
+            onClick={() => handleDeleteModal(data)}
             icon={<DeleteIcon />}
           />
         </HStack>

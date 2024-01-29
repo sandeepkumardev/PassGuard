@@ -5,6 +5,7 @@ import App from "./App";
 import { ChakraProvider } from "@chakra-ui/react";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import StoreProvider from "./context";
+import ActionsProvider from "./context/actions";
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_API_URL,
@@ -15,13 +16,13 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <ApolloProvider client={client}>
-      <ChakraProvider>
-        <StoreProvider>
+  <ApolloProvider client={client}>
+    <ChakraProvider>
+      <StoreProvider>
+        <ActionsProvider>
           <App />
-        </StoreProvider>
-      </ChakraProvider>
-    </ApolloProvider>
-  </React.StrictMode>
+        </ActionsProvider>
+      </StoreProvider>
+    </ChakraProvider>
+  </ApolloProvider>
 );

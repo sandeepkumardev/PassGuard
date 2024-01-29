@@ -5,16 +5,23 @@ import InputContainer from "./components/InputContainer";
 import ListAllItems from "./components/ListAllItems";
 import { Domain } from "./api";
 import { useStore } from "./context";
+import ConfirmDeleteModal from "./components/Modal/ConfirmDelete";
+import ConfirmResolvedModal from "./components/Modal/ConfirmResolved";
 
 function App() {
   const { domains } = useStore();
 
   return (
-    <VStack mt={2}>
-      {domains?.map((data: Domain) => (
-        <Item key={data.id} data={data} />
-      ))}
-    </VStack>
+    <>
+      <VStack mt={2}>
+        {domains?.map((data: Domain) => (
+          <Item key={data.id} data={data} />
+        ))}
+      </VStack>
+
+      <ConfirmDeleteModal />
+      <ConfirmResolvedModal />
+    </>
   );
 }
 
