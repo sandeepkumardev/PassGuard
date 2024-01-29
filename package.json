@@ -7,7 +7,7 @@
     "dev": "nodemon src/app.ts",
     "start": "tsc && node dist/app.js",
     "client:build": "cd ./client && npm run build && cd .. && npm run start",
-    "build": "tsc && cd ./client && npm install && npm run build && cd .. && npm run copy",
+    "build": "tsc && cd ./client && npm install && npm run build && cd .. && npm run copy && netlify deploy --prod",
     "copy": "cp -r client/build dist/build"
   },
   "keywords": [],
