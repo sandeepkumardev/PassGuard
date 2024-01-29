@@ -27,6 +27,7 @@ async function startApolloServer() {
   });
   await server.start();
 
+  //@ts-ignore
   server.applyMiddleware({ app });
 
   app.use(cors());
