@@ -8,7 +8,7 @@ import StoreProvider from "./context";
 import ActionsProvider from "./context/actions";
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
+  uri: "https://passguard-api.netlify.app/graphql",
   cache: new InMemoryCache(),
 });
 

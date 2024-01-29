@@ -1,3 +1,4 @@
+import * as pg from "pg";
 import { Sequelize } from "sequelize";
 
 interface DBConig {
@@ -23,4 +24,5 @@ export const sequelize = new Sequelize({
   password: db_Config.password,
   dialect: db_Config.dialect,
   logging: false,
+  dialectModule: pg,
 });

@@ -2,7 +2,7 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
 module.exports = {
-  schema: "http://localhost:4000/graphql",
+  schema: "https://passguard-api.netlify.app/graphql",
   documents: ["./src/api/*.graphql"],
   overwrite: true,
   generates: {

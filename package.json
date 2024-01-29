@@ -1,37 +1,33 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
-  "main": "dist/app.js",
+  "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/app.ts",
-    "start": "nodemon",
-    "bundle": "cpx src/**/* functions/bundle",
-    "build": "cd ./node_modules/.bin/netlify-lambda build src",
-    "copy": "cp -r client/build dist/build"
+    "build": "tsc && cp -r client/build functions/bundle/build",
+    "start": "nodemon"
   },
-  "keywords": [],
-  "author": "sandeep-kumar",
+  "keywords": [
+    "typescript",
+    "graphql",
+    "api",
+    "netlify"
+  ],
   "license": "ISC",
   "devDependencies": {
-    "@types/express": "^4.17.21",
-    "cpx": "^1.5.0",
-    "nodemon": "^3.0.3",
-    "ts-node": "^10.9.2",
+    "@graphql-codegen/cli": "^1.12.2",
+    "@graphql-codegen/introspection": "1.12.2",
+    "@graphql-codegen/typescript": "1.12.2",
+    "@graphql-codegen/typescript-resolvers": "1.12.2",
+    "@types/express-serve-static-core": "^4.17.42",
+    "nodemon": "^2.0.2",
+    "ts-node": "^8.10.2",
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@netlify/functions": "^2.5.1",
-    "apollo-server": "^3.13.0",
-    "apollo-server-express": "^3.13.0",
-    "apollo-server-lambda": "^3.13.0",
-    "cors": "^2.8.5",
+    "apollo-server": "^2.10.1",
+    "apollo-server-lambda": "^2.10.1",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
-    "graphql": "^16.8.1",
-    "graphql-playground-middleware-express": "^1.7.23",
-    "netlify-cli": "^17.15.4",
-    "netlify-lambda": "^2.0.16",
     "pg": "^8.11.3",
     "sequelize": "^6.35.2",
     "serverless-http": "^3.2.0"

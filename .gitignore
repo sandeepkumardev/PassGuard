@@ -6,7 +6,9 @@ dist
 lib
 
 .env
+npm-debug.log
+.DS_Store
+/templates
 # Local Netlify folder
 .netlify
-
-functions
+/functions/bundle
