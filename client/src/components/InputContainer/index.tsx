@@ -93,6 +93,7 @@ const InputContainer = ({ data }: { data: Domain }) => {
     }, 1000);
 
     return () => clearTimeout(getData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input]);
 
   const regex = /^https?:\/\//;
