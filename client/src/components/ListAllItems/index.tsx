@@ -8,10 +8,13 @@ import {
   Tabs,
   Tag,
   TagLabel,
+  Text,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { Domain } from "../../api";
+import { ISingleTag } from "../../types";
 
-const ListAllItems = () => {
+const ListAllItems = ({ data }: { data: Domain }) => {
   const [show, setShow] = useState(false);
 
   return (
@@ -25,10 +28,11 @@ const ListAllItems = () => {
         <TabPanel p={2} pb={0}>
           <Collapse in={show} animateOpacity>
             <Box>
-              <SingleTag />
-              <SingleTag />
-              <SingleTag />
-              <SingleTag />
+              {!data.usedPW && !data.password && <Text>No history yet!</Text>}
+              {data.password && <SingleTag name={data.password} bg="green" />}
+              {data.usedPW?.map((item: string) => (
+                <SingleTag key={item} name={item} />
+              ))}
             </Box>
           </Collapse>
         </TabPanel>
@@ -37,10 +41,17 @@ const ListAllItems = () => {
   );
 };
 
-const SingleTag = () => {
+const SingleTag = ({ name, bg = "gray" }: ISingleTag) => {
   return (
-    <Tag size={"md"} borderRadius="full" variant="solid" pb={0.9} m={0.5}>
-      <TagLabel>Green</TagLabel>
+    <Tag
+      size={"md"}
+      borderRadius="full"
+      variant="solid"
+      pb={0.9}
+      m={0.5}
+      colorScheme={bg}
+    >
+      <TagLabel>{name}</TagLabel>
     </Tag>
   );
 };
