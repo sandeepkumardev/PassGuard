@@ -1,6 +1,7 @@
-import { CheckIcon, DeleteIcon } from "@chakra-ui/icons";
+import { CheckIcon, CopyIcon, DeleteIcon } from "@chakra-ui/icons";
 import {
   Button,
+  Divider,
   Flex,
   HStack,
   IconButton,
@@ -103,6 +104,13 @@ const InputContainer = ({ data }: { data: Domain }) => {
     setLoading(false);
   };
 
+  const handleCopy = () => {
+    if (input.trim() == "") return;
+
+    navigator.clipboard.writeText(input);
+    console.log("Copied to clipboard!");
+  };
+
   React.useEffect(() => {
     if (input.trim() === "") {
       setError(false);
@@ -119,9 +127,19 @@ const InputContainer = ({ data }: { data: Domain }) => {
   }, [input]);
 
   return (
-    <Stack>
+    <Stack userSelect={"none"}>
       <InputGroup>
         <InputLeftAddon>{data.name}</InputLeftAddon>
+        <InputLeftAddon
+          px={2}
+          bg={"#f6f6f6"}
+          cursor={"pointer"}
+          borderTopLeftRadius={0}
+          borderBottomLeftRadius={0}
+          onClick={handleCopy}
+        >
+          <CopyIcon fontSize={20} color={"green.600"} />
+        </InputLeftAddon>
         <Input
           _disabled={{
             opacity: 1,
