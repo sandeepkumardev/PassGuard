@@ -7,7 +7,8 @@
     "dev": "nodemon src/app.ts",
     "start": "tsc && node dist/app.js",
     "client:build": "cd ./client && npm run build && cd .. && npm run start",
-    "build": "cd ./client && npm install && npm run build && cd .. && tsc"
+    "build": "tsc && cd ./client && npm install && npm run build && cd .. && npm run copy",
+    "copy": "xcopy client\\build dist\\build  /s /e /y /i"
   },
   "keywords": [],
   "author": "sandeep-kumar",
