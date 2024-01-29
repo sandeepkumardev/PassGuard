@@ -1,14 +1,20 @@
 {
   "compilerOptions": {
-    "target": "es2016",
+    "allowJs": true,
     "module": "commonjs",
-    "lib": ["dom", "es6"],
-    "outDir": "dist",
-    "rootDir": "src",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "moduleResolution": "node",
+    "pretty": true,
+    "sourceMap": true,
+    "target": "es2017",
+    "outDir": "./functions/bundle",
+    "lib": ["es6"],
+    "resolveJsonModule": true,
+    "types": ["node"],
+    "typeRoots": ["./node_modules/@types", "./src/@types"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true
   },
-  "exclude": ["client"]
+  "include": ["src/*.ts", "src/**/*.ts", "src/**/*.js"],
+  "exclude": ["node_modules", "src/**/*.spec.ts", "src/**/*.spec.js"]
 }
