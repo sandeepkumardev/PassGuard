@@ -1,6 +1,47 @@
-query GetBooks {
-  books {
-    title
-    author
+query GetDomains($isDeleted: Boolean) {
+  domains(isDeleted: $isDeleted) {
+    id
+    name
+    usedPW
+    password
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}
+
+mutation NewDomain($name: String!) {
+  newDomain(name: $name) {
+    id
+    name
+    usedPW
+    password
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}
+
+mutation IsPasswordExist($isPasswordExistId: ID!, $password: String!) {
+  isPasswordExist(id: $isPasswordExistId, password: $password) {
+    affectedCount
+  }
+}
+
+mutation AddPassword($addPasswordId: ID!, $password: String!) {
+  addPassword(id: $addPasswordId, password: $password) {
+    affectedCount
+  }
+}
+
+mutation RemoveDomain($removeDomainId: ID!, $password: String!) {
+  removeDomain(id: $removeDomainId, password: $password) {
+    affectedCount
+  }
+}
+
+mutation DeleteDomain($deleteDomainId: ID!) {
+  destroyDomain(id: $deleteDomainId) {
+    affectedCount
   }
 }
