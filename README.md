@@ -1,6 +1,6 @@
 ## Overview
 
-Forgetting passwords is a common inconvenience faced by many individuals. This documentation outlines the functionality and usage of a password finder app designed to alleviate the frustration of repeatedly attempting the same incorrect password.
+Forgetting passwords is a common inconvenience faced by many individuals. This documentation outlines the functionality and usage of a PassGuard app designed to alleviate the frustration of repeatedly attempting the same incorrect password.
 
 ## Table of Contents
 
@@ -65,7 +65,7 @@ Main dependencies
 
 ```bash
 # Clone the repository
-git clone https://github.com/sandeepkumardev/password-finder.git
+git clone https://github.com/sandeepkumardev/PassGuard.git
 ```
 
 ## Setup Server
@@ -114,4 +114,4 @@ For boilerplate please checkout -
 
 ## Conclusion:
 
-The password finder app preventing users from repeatedly attempting the same incorrect password. By streamlining the login process and promoting efficient password management practices, the app aims to enhance user productivity and security.
+The PassGuard app preventing users from repeatedly attempting the same incorrect password. By streamlining the login process and promoting efficient password management practices, the app aims to enhance user productivity and security.
