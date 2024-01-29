@@ -7,6 +7,10 @@ export interface ISingleTag {
   bg?: string;
 }
 
+export interface IChildren {
+  children: ReactNode;
+}
+
 export interface IAppContainer extends ContainerProps {
   children: ReactNode;
 }
