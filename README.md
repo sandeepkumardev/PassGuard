@@ -1,6 +1,6 @@
 ## Overview
 
-Forgetting passwords is a common inconvenience faced by many individuals. This documentation outlines the functionality and usage of a password manager app designed to alleviate the frustration of repeatedly attempting the same incorrect password.
+Forgetting passwords is a common inconvenience faced by many individuals. This documentation outlines the functionality and usage of a password finder app designed to alleviate the frustration of repeatedly attempting the same incorrect password.
 
 ## Table of Contents
 
