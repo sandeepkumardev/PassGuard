@@ -6,3 +6,5 @@ dist
 lib
 
 .env
+# Local Netlify folder
+.netlify

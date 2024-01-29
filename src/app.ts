@@ -1,6 +1,6 @@
 import * as dotenv from "dotenv";
 dotenv.config();
-import express from "express";
+import express, { Router } from "express";
 import { ApolloServer } from "apollo-server-express";
 import resolvers from "./resolvers";
 import typeDefs from "./typeDefs";
@@ -8,6 +8,7 @@ import middleware from "./middleware";
 import cors from "cors";
 import { sequelize } from "./config/db";
 import path from "path";
+import serverless from "serverless-http";
 
 async function startApolloServer() {
   await sequelize
@@ -36,22 +37,26 @@ async function startApolloServer() {
 
   app.use(express.static(path.join(__dirname, "build")));
 
-  app.get("/", (req, res) => {
+  const router = Router();
+  router.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "build", "index.html"));
   });
-
-  app.get("/test", (req, res) => {
+  router.get("/test", (req, res) => {
     res.send("Test route");
   });
 
-  var port = process.env.PORT || 4000;
+  app.use("/api/", router);
 
-  app.listen({ port });
+  const handler = serverless(app);
+
+  // var port = process.env.PORT || 4000;
+  // app.listen({ port });
+
   console.log("🚀 Server ready at -", {
     REST: `http://localhost:4000`,
     Graphql: `http://localhost:4000${server.graphqlPath}`,
   });
-  return { server, app };
+  return { server, handler };
 }
 
 startApolloServer();
