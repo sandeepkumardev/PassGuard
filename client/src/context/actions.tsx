@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { IChildren } from "../types";
+import { IChildren, IToast } from "../types";
 import { Domain } from "../api";
 
 interface IActions {
@@ -14,6 +14,8 @@ interface IActions {
     password: string;
   };
   handleResolvedModal: (data?: null | Domain, password?: string) => void;
+  toast: IToast;
+  handleToast: (open: boolean, success?: boolean, message?: string) => void;
 }
 
 //@ts-ignore
@@ -30,6 +32,19 @@ const ActionsProvider = ({ children }: IChildren) => {
     data: null,
     password: "",
   });
+  const [toast, setToast] = useState({
+    open: false,
+    success: false,
+    message: "",
+  });
+
+  const handleToast = (open: boolean, success = false, message = "") => {
+    setToast({
+      open,
+      success,
+      message,
+    });
+  };
 
   const handleDeleteModal = (data = null) => {
     setDeleteModal({
@@ -53,6 +68,8 @@ const ActionsProvider = ({ children }: IChildren) => {
         handleDeleteModal,
         resolvedModal,
         handleResolvedModal,
+        toast,
+        handleToast,
       }}
     >
       {children}

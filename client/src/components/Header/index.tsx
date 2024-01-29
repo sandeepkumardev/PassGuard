@@ -12,8 +12,10 @@ import {
 import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { useNewDomainMutation } from "../../api";
 import { useStore } from "../../context";
+import { useActions } from "../../context/actions";
 
 const Header = () => {
+  const { handleToast } = useActions();
   const inputRef = useRef(null);
   const { addNewDomain, includeResolved, isResolved } = useStore();
   const [createNewDomain] = useNewDomainMutation();
@@ -28,19 +30,25 @@ const Header = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { data } = await createNewDomain({
-      variables: {
-        name: input.trim(),
-      },
-    });
 
-    const response = data?.newDomain;
+    try {
+      const { data } = await createNewDomain({
+        variables: {
+          name: input.trim(),
+        },
+      });
 
-    if (!response) return setIsError(true);
+      const response = data?.newDomain;
+      if (!response) return setIsError(true);
 
-    setInput("");
-    setShow(false);
-    addNewDomain(response);
+      setInput("");
+      setShow(false);
+      addNewDomain(response);
+      handleToast(true, true, "Added new item!");
+    } catch (error) {
+      console.log(error);
+      handleToast(true, false, "Something went wrong!");
+    }
   };
 
   const handleShow = () => {

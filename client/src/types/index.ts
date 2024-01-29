@@ -18,3 +18,9 @@ export interface IAppContainer extends ContainerProps {
 export interface IApolloError {
   error: ApolloError;
 }
+
+export interface IToast {
+  open: boolean;
+  success: boolean;
+  message: string;
+}

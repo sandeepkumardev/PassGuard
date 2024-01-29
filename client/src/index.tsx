@@ -18,11 +18,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <ApolloProvider client={client}>
     <ChakraProvider>
-      <StoreProvider>
-        <ActionsProvider>
+      <ActionsProvider>
+        <StoreProvider>
           <App />
-        </ActionsProvider>
-      </StoreProvider>
+        </StoreProvider>
+      </ActionsProvider>
     </ChakraProvider>
   </ApolloProvider>
 );

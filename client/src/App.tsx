@@ -7,9 +7,12 @@ import { Domain } from "./api";
 import { useStore } from "./context";
 import ConfirmDeleteModal from "./components/Modal/ConfirmDelete";
 import ConfirmResolvedModal from "./components/Modal/ConfirmResolved";
+import Toast from "./components/Toast";
+import { useActions } from "./context/actions";
 
 function App() {
   const { domains } = useStore();
+  const { toast } = useActions();
 
   return (
     <>
@@ -21,6 +24,7 @@ function App() {
 
       <ConfirmDeleteModal />
       <ConfirmResolvedModal />
+      {toast.open && <Toast data={toast} />}
     </>
   );
 }

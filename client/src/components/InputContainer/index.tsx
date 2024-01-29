@@ -22,7 +22,7 @@ import { useStore } from "../../context";
 import { useActions } from "../../context/actions";
 
 const InputContainer = ({ data }: { data: Domain }) => {
-  const { handleDeleteModal, handleResolvedModal } = useActions();
+  const { handleDeleteModal, handleResolvedModal, handleToast } = useActions();
   const { addPassword } = useStore();
   const [isPasswordExistGQL] = useIsPasswordExistMutation();
   const [addPasswordGQL] = useAddPasswordMutation();
@@ -36,18 +36,23 @@ const InputContainer = ({ data }: { data: Domain }) => {
       return;
     }
 
-    const response = await addPasswordGQL({
-      variables: {
-        addPasswordId: `${data.id}`,
-        password: input.trim(),
-      },
-    });
+    try {
+      const response = await addPasswordGQL({
+        variables: {
+          addPasswordId: `${data.id}`,
+          password: input.trim(),
+        },
+      });
 
-    if (response.data?.addPassword.affectedCount == 1) {
-      addPassword(`${data.id}`, input);
-      setInput("");
-    } else {
-      console.log("something went wrong!");
+      if (response.data?.addPassword.affectedCount == 1) {
+        addPassword(`${data.id}`, input);
+        setInput("");
+      } else {
+        handleToast(true, false, "Something went wrong!");
+      }
+    } catch (error) {
+      console.log(error);
+      handleToast(true, false, "Something went wrong!");
     }
   };
 
@@ -71,7 +76,7 @@ const InputContainer = ({ data }: { data: Domain }) => {
     if (input.trim() == "") return;
 
     navigator.clipboard.writeText(input);
-    console.log("Copied to clipboard!");
+    handleToast(true, true, "Copied to clipboard!");
   };
 
   React.useEffect(() => {

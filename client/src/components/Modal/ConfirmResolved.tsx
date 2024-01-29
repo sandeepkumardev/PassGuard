@@ -18,25 +18,31 @@ import { useRemoveDomainMutation } from "../../api";
 import { useStore } from "../../context";
 
 const ConfirmResolved = () => {
-  const { resolvedModal, handleResolvedModal } = useActions();
+  const { resolvedModal, handleResolvedModal, handleToast } = useActions();
   const { deleteDomain } = useStore();
   const [removeDomainGQL] = useRemoveDomainMutation();
 
   const handleRemove = async () => {
-    const response = await removeDomainGQL({
-      variables: {
-        removeDomainId: `${resolvedModal.data?.id}`,
-        password: resolvedModal.password,
-      },
-    });
+    try {
+      const response = await removeDomainGQL({
+        variables: {
+          removeDomainId: `${resolvedModal.data?.id}`,
+          password: resolvedModal.password,
+        },
+      });
 
-    if (response.data?.removeDomain.affectedCount == 1) {
-      deleteDomain(`${resolvedModal.data?.id}`);
-    } else {
-      console.log("something went wrong!");
+      if (response.data?.removeDomain.affectedCount == 1) {
+        deleteDomain(`${resolvedModal.data?.id}`);
+        handleToast(true, true, "Successfully resolved!");
+      } else {
+        handleToast(true, false, "Something went wrong!");
+      }
+
+      handleResolvedModal();
+    } catch (error) {
+      console.log(error);
+      handleToast(true, false, "Something went wrong!");
     }
-
-    handleResolvedModal();
   };
 
   return (

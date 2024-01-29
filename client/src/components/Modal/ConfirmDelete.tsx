@@ -21,24 +21,30 @@ import { useDeleteDomainMutation } from "../../api";
 import { useStore } from "../../context";
 
 const ConfirmDelete = () => {
-  const { deleteModal, handleDeleteModal } = useActions();
+  const { deleteModal, handleDeleteModal, handleToast } = useActions();
   const { deleteDomain } = useStore();
   const [deleteDomainGQL] = useDeleteDomainMutation();
 
   const handleDelete = async () => {
-    const response = await deleteDomainGQL({
-      variables: {
-        deleteDomainId: `${deleteModal.data?.id}`,
-      },
-    });
+    try {
+      const response = await deleteDomainGQL({
+        variables: {
+          deleteDomainId: `${deleteModal.data?.id}`,
+        },
+      });
 
-    if (response.data?.destroyDomain.affectedCount == 1) {
-      deleteDomain(`${deleteModal.data?.id}`);
-    } else {
-      console.log("something went wrong!");
+      if (response.data?.destroyDomain.affectedCount == 1) {
+        deleteDomain(`${deleteModal.data?.id}`);
+        handleToast(true, true, "Successfully deleted!");
+      } else {
+        handleToast(true, false, "Something went wrong!");
+      }
+
+      handleDeleteModal();
+    } catch (error) {
+      console.log(error);
+      handleToast(true, false, "Something went wrong!");
     }
-
-    handleDeleteModal();
   };
 
   return (
