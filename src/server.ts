@@ -15,7 +15,12 @@ function clientServer() {
   app.use(express.static(path.join(__dirname, "build")));
 
   router.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "build", "index.html"));
+    const pathDir = path.join(__dirname, "build", "index.html");
+    const rootDir = __dirname;
+    res.send({
+      pathDir,
+      rootDir,
+    });
   });
 
   app.use(router);
