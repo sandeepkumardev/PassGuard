@@ -2,6 +2,8 @@
 
 Forgetting passwords is a common inconvenience faced by many individuals. This documentation outlines the functionality and usage of a PassGuard app designed to alleviate the frustration of repeatedly attempting the same incorrect password.
 
+[Open Live](https://passguard-ui.netlify.app)
+
 ## Table of Contents
 
 1. [Features](#features)

@@ -1,8 +1,14 @@
 node_modules
 *-lock.json
 *.lock
-build
+# build
 dist
 lib
 
 .env
+npm-debug.log
+.DS_Store
+/templates
+# Local Netlify folder
+.netlify
+/functions/bundle
