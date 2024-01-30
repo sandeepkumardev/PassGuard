@@ -16,7 +16,7 @@ function clientServer() {
 
   router.get("/", (req, res) => {
     const pathDir = path.join(__dirname, "build", "index.html");
-    const rootDir = __dirname;
+    const rootDir = __dirname + " " + __filename;
     res.send({
       pathDir,
       rootDir,

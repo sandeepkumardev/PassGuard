@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "client": "cd client && npm install && npm run build && cd ..",
-    "build": "npm run client && tsc && cp -r client/build functions/bundle/build",
+    "build": "tsc && cp -r client/build functions/bundle/build",
     "start": "nodemon"
   },
   "keywords": [
