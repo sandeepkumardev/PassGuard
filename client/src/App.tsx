@@ -1,53 +1,54 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
-import { Badge, Box, VStack } from "@chakra-ui/react";
-import InputContainer from "./components/InputContainer";
-import ListAllItems from "./components/ListAllItems";
-import { Domain } from "./api";
+import { Divider, VStack } from "@chakra-ui/react";
+import { Domain, useGetDomainsLazyQuery } from "./api";
 import { useStore } from "./context";
 import ConfirmDeleteModal from "./components/Modal/ConfirmDelete";
 import ConfirmResolvedModal from "./components/Modal/ConfirmResolved";
 import Toast from "./components/Toast";
-import { useActions } from "./context/actions";
+import { AppContainer } from "./components/AppContainer";
+import Header from "./components/Header";
+import { Loader } from "./components/Loader";
+import ItemContainer from "./components/ItemContainer";
 
 function App() {
-  const { domains } = useStore();
-  const { toast } = useActions();
+  const [fn, response] = useGetDomainsLazyQuery();
+  const { actions, store, actionDispatch, storeDispatch } = useStore();
+
+  useEffect(() => {
+    actionDispatch({ type: "IS_RESOLVED" });
+  }, []);
+
+  useEffect(() => {
+    fn({ variables: { isDeleted: actions.isResolved }, canonizeResults: true });
+  }, [actions.isResolved]);
+
+  useEffect(() => {
+    if (response.data?.domains)
+      //@ts-ignore
+      storeDispatch({ type: "FETCHED_DATA", payload: response.data?.domains });
+  }, [response.data?.domains]);
 
   return (
-    <>
-      <VStack mt={2}>
-        {domains?.map((data: Domain) => (
-          <Item key={data.id} data={data} />
-        ))}
-      </VStack>
+    <AppContainer>
+      <Header />
+      <Divider my={2} shadow={"dark-lg"} />
+
+      {response.loading ? (
+        <Loader />
+      ) : (
+        <VStack mt={2}>
+          {store.domains?.map((data: Domain) => (
+            <ItemContainer key={data.id} data={data} />
+          ))}
+        </VStack>
+      )}
 
       <ConfirmDeleteModal />
       <ConfirmResolvedModal />
-      {toast.open && <Toast data={toast} />}
-    </>
+      {actions.toast.isOpen && <Toast data={actions.toast} />}
+    </AppContainer>
   );
 }
 
-const Item = ({ data }: { data: Domain }) => {
-  return (
-    <Box w="100%" p={4} shadow={"md"} position={"relative"}>
-      {data.deletedAt && (
-        <Badge
-          position={"absolute"}
-          right={0}
-          top={0}
-          colorScheme="purple"
-          p={1}
-          zIndex={10}
-        >
-          Resolved
-        </Badge>
-      )}
-      <InputContainer data={data} />
-      <ListAllItems data={data} />
-    </Box>
-  );
-};
-
-export default App;
+export default React.memo(App);

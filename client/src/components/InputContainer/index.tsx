@@ -14,17 +14,11 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import {
-  Domain,
-  useAddPasswordMutation,
-  useIsPasswordExistMutation,
-} from "../../api";
+import { Domain, useAddPasswordMutation, useIsPasswordExistMutation } from "../../api";
 import { useStore } from "../../context";
-import { useActions } from "../../context/actions";
 
 const InputContainer = ({ data }: { data: Domain }) => {
-  const { handleDeleteModal, handleResolvedModal, handleToast } = useActions();
-  const { addPassword } = useStore();
+  const { actionDispatch, storeDispatch } = useStore();
   const [isPasswordExistGQL] = useIsPasswordExistMutation();
   const [addPasswordGQL] = useAddPasswordMutation();
   const [isError, setError] = useState(false);
@@ -46,14 +40,20 @@ const InputContainer = ({ data }: { data: Domain }) => {
       });
 
       if (response.data?.addPassword.affectedCount == 1) {
-        addPassword(`${data.id}`, input);
+        storeDispatch({ type: "ADD_PASSWORD", payload: { id: `${data.id}`, password: input } });
         setInput("");
       } else {
-        handleToast(true, false, "Something went wrong!");
+        actionDispatch({
+          type: "HANDLE_TOAST",
+          payload: { isOpen: true, success: false, message: "Something went wrong!" },
+        });
       }
     } catch (error) {
       console.log(error);
-      handleToast(true, false, "Something went wrong!");
+      actionDispatch({
+        type: "HANDLE_TOAST",
+        payload: { isOpen: true, success: false, message: "Something went wrong!" },
+      });
     }
   };
 
@@ -77,7 +77,24 @@ const InputContainer = ({ data }: { data: Domain }) => {
     if (input.trim() == "") return;
 
     navigator.clipboard.writeText(input);
-    handleToast(true, true, "Copied to clipboard!");
+    actionDispatch({
+      type: "HANDLE_TOAST",
+      payload: { isOpen: true, success: true, message: "Copied to clipboard!" },
+    });
+  };
+
+  const handleDeleteModal = () => {
+    actionDispatch({
+      type: "HANDLE_DELETE_MODAL",
+      payload: { isOpen: true, data: data },
+    });
+  };
+
+  const handleResolvedModal = () => {
+    actionDispatch({
+      type: "HANDLE_RESOLVED_MODAL",
+      payload: { isOpen: true, data: { ...data, password: input } },
+    });
   };
 
   React.useEffect(() => {
@@ -129,9 +146,7 @@ const InputContainer = ({ data }: { data: Domain }) => {
         />
         <InputRightElement>
           {loading && <Spinner />}
-          {input.trim() !== "" && !loading && !isError && (
-            <CheckIcon color="green.500" />
-          )}
+          {input.trim() !== "" && !loading && !isError && <CheckIcon color="green.500" />}
         </InputRightElement>
       </InputGroup>
       <Flex justifyContent={"space-between"}>
@@ -159,7 +174,7 @@ const InputContainer = ({ data }: { data: Domain }) => {
             h="1.75rem"
             size="sm"
             shadow={"md"}
-            onClick={() => handleResolvedModal(data, input)}
+            onClick={handleResolvedModal}
           >
             Resolved
           </Button>
@@ -168,7 +183,7 @@ const InputContainer = ({ data }: { data: Domain }) => {
             size="sm"
             colorScheme="red"
             aria-label="delete"
-            onClick={() => handleDeleteModal(data)}
+            onClick={handleDeleteModal}
             icon={<DeleteIcon />}
           />
         </HStack>

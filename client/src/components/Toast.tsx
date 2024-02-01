@@ -1,11 +1,11 @@
 import { useToast } from "@chakra-ui/react";
 import React, { useEffect } from "react";
-import { useActions } from "../context/actions";
-import { IToast } from "../types";
+import { IToast } from "../types/actions";
+import { useStore } from "../context";
 
 const Toast = ({ data }: { data: IToast }) => {
   const toast = useToast();
-  const { handleToast } = useActions();
+  const { actionDispatch } = useStore();
 
   useEffect(() => {
     toast({
@@ -16,7 +16,7 @@ const Toast = ({ data }: { data: IToast }) => {
       isClosable: true,
     });
 
-    handleToast(false);
+    actionDispatch({ type: "HANDLE_TOAST", payload: { isOpen: false } });
   });
 
   return <></>;

@@ -12,12 +12,10 @@ import {
 import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { useNewDomainMutation } from "../../api";
 import { useStore } from "../../context";
-import { useActions } from "../../context/actions";
 
 const Header = () => {
-  const { handleToast } = useActions();
   const inputRef = useRef(null);
-  const { addNewDomain, includeResolved, isResolved } = useStore();
+  const { actions, store, actionDispatch, storeDispatch } = useStore();
   const [createNewDomain] = useNewDomainMutation();
   const [input, setInput] = useState("");
   const [isError, setIsError] = useState(false);
@@ -43,11 +41,17 @@ const Header = () => {
 
       setInput("");
       setShow(false);
-      addNewDomain(response);
-      handleToast(true, true, "Added new item!");
+      storeDispatch({ type: "ADD_NEW_DOMAIN", payload: response });
+      actionDispatch({
+        type: "HANDLE_TOAST",
+        payload: { isOpen: true, success: true, message: "Added new item!" },
+      });
     } catch (error) {
       console.log(error);
-      handleToast(true, false, "Something went wrong!");
+      actionDispatch({
+        type: "HANDLE_TOAST",
+        payload: { isOpen: true, success: false, message: "Something went wrong!" },
+      });
     }
   };
 
@@ -57,21 +61,27 @@ const Header = () => {
     inputRef.current.focus();
   };
 
+  const handleResolved = () => {
+    localStorage.setItem("include_resolved", JSON.stringify({ status: !actions.isResolved }));
+    actionDispatch({ type: "INCLUDE_RESOLVED", payload: !actions.isResolved });
+    window.location.reload();
+  };
+
   return (
     <Box my={3} h={"67px"}>
       <Flex alignItems={"flex-start"} justifyContent={"space-between"}>
         <Flex flexDirection={"column"}>
           <Flex alignItems={"center"} gap={2}>
             <UnlockIcon color="green.500" fontSize={"2xl"} />
-            <Text fontSize="2xl">Password Finder</Text>
+            <Text fontSize="2xl">PassGuard</Text>
           </Flex>
           <Checkbox
             mt={2}
             mx={1}
             borderColor={"green"}
             colorScheme="green"
-            isChecked={isResolved}
-            onChange={includeResolved}
+            isChecked={actions.isResolved}
+            onChange={handleResolved}
           >
             Include resolved
           </Checkbox>
