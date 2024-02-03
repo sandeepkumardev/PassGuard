@@ -14,35 +14,35 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useDeleteDomainMutation } from "../../api";
-import { useStore } from "../../context";
+import { useStore } from "../../store";
 
 const ConfirmDelete = () => {
-  const { actionDispatch, actions, storeDispatch } = useStore();
+  const { state, dispatch } = useStore();
   const [deleteDomainGQL] = useDeleteDomainMutation();
 
   const closeModal = () => {
-    actionDispatch({ type: "HANDLE_DELETE_MODAL", payload: { isOpen: false, data: null } });
+    dispatch({ type: "HANDLE_DELETE_MODAL", payload: { isOpen: false, data: null } });
   };
 
   const handleDelete = async () => {
     try {
       const response = await deleteDomainGQL({
         variables: {
-          deleteDomainId: `${actions.deleteModal.data?.id}`,
+          deleteDomainId: `${state.actions.deleteModal.data?.id}`,
         },
       });
 
       if (response.data?.destroyDomain.affectedCount == 1) {
-        storeDispatch({
+        dispatch({
           type: "DELETE_DOMAIN",
-          payload: { id: `${actions.deleteModal.data?.id}` },
+          payload: { id: `${state.actions.deleteModal.data?.id}` },
         });
-        actionDispatch({
+        dispatch({
           type: "HANDLE_TOAST",
           payload: { isOpen: true, success: true, message: "Successfully deleted!" },
         });
       } else {
-        actionDispatch({
+        dispatch({
           type: "HANDLE_TOAST",
           payload: { isOpen: true, success: false, message: "Something went wrong!" },
         });
@@ -50,7 +50,7 @@ const ConfirmDelete = () => {
       closeModal();
     } catch (error) {
       console.log(error);
-      actionDispatch({
+      dispatch({
         type: "HANDLE_TOAST",
         payload: { isOpen: true, success: false, message: "Something went wrong!" },
       });
@@ -58,11 +58,11 @@ const ConfirmDelete = () => {
   };
 
   return (
-    <Modal isOpen={actions.deleteModal.isOpen} onClose={closeModal}>
+    <Modal isOpen={state.actions.deleteModal.isOpen} onClose={closeModal}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          {actions.deleteModal.data?.password
+          {state.actions.deleteModal.data?.password
             ? "Happy to assist you! 😊"
             : "It's not resolved yet! 🥺"}
         </ModalHeader>
@@ -70,17 +70,17 @@ const ConfirmDelete = () => {
         <ModalBody>
           Are you sure to delete{" "}
           <Kbd mx={2} color={"purple"} fontSize={18}>
-            {actions.deleteModal.data?.name}
+            {state.actions.deleteModal.data?.name}
           </Kbd>
           ?
-          {actions.deleteModal.data?.password && (
+          {state.actions.deleteModal.data?.password && (
             <Text textAlign={"left"}>
-              Please Remember this - <b>{actions.deleteModal.data?.password}</b>
+              Please Remember this - <b>{state.actions.deleteModal.data?.password}</b>
             </Text>
           )}
           <Stack direction="row" mt={4}>
             <Badge colorScheme="red" p={0.5} px={2} borderRadius={"8px"} fontSize={"12px"}>
-              {actions.deleteModal.data?.usedPW?.length || 0} failed attempt
+              {state.actions.deleteModal.data?.usedPW?.length || 0} failed attempt
             </Badge>
           </Stack>
         </ModalBody>

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "./App.css";
 import { Divider, VStack } from "@chakra-ui/react";
 import { Domain, useGetDomainsLazyQuery } from "./api";
-import { useStore } from "./context";
+import { useStore } from "./store";
 import ConfirmDeleteModal from "./components/Modal/ConfirmDelete";
 import ConfirmResolvedModal from "./components/Modal/ConfirmResolved";
 import Toast from "./components/Toast";
@@ -13,20 +13,21 @@ import ItemContainer from "./components/ItemContainer";
 
 function App() {
   const [fn, response] = useGetDomainsLazyQuery();
-  const { actions, store, actionDispatch, storeDispatch } = useStore();
+  const { state, dispatch } = useStore();
 
   useEffect(() => {
-    actionDispatch({ type: "IS_RESOLVED" });
+    dispatch({ type: "IS_RESOLVED" });
   }, []);
 
   useEffect(() => {
-    fn({ variables: { isDeleted: actions.isResolved }, canonizeResults: true });
-  }, [actions.isResolved]);
+    //@ts-ignore
+    fn({ variables: { isDeleted: state.actions.isResolved }, canonizeResults: true });
+  }, [state.actions.isResolved]);
 
   useEffect(() => {
     if (response.data?.domains)
       //@ts-ignore
-      storeDispatch({ type: "FETCHED_DATA", payload: response.data?.domains });
+      dispatch({ type: "FETCHED_DATA", payload: response.data?.domains });
   }, [response.data?.domains]);
 
   return (
@@ -38,7 +39,7 @@ function App() {
         <Loader />
       ) : (
         <VStack mt={2}>
-          {store.domains?.map((data: Domain) => (
+          {state.store.domains?.map((data: Domain) => (
             <ItemContainer key={data.id} data={data} />
           ))}
         </VStack>
@@ -46,7 +47,7 @@ function App() {
 
       <ConfirmDeleteModal />
       <ConfirmResolvedModal />
-      {actions.toast.isOpen && <Toast data={actions.toast} />}
+      {state.actions.toast.isOpen && <Toast data={state.actions.toast} />}
     </AppContainer>
   );
 }

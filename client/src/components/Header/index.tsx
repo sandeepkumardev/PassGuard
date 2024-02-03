@@ -11,11 +11,12 @@ import {
 } from "@chakra-ui/react";
 import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { useNewDomainMutation } from "../../api";
-import { useStore } from "../../context";
+import { useStore } from "../../store";
+import { INCLUDE_RESOLVED } from "../../constants";
 
 const Header = () => {
   const inputRef = useRef(null);
-  const { actions, store, actionDispatch, storeDispatch } = useStore();
+  const { state, dispatch } = useStore();
   const [createNewDomain] = useNewDomainMutation();
   const [input, setInput] = useState("");
   const [isError, setIsError] = useState(false);
@@ -41,14 +42,14 @@ const Header = () => {
 
       setInput("");
       setShow(false);
-      storeDispatch({ type: "ADD_NEW_DOMAIN", payload: response });
-      actionDispatch({
+      dispatch({ type: "ADD_NEW_DOMAIN", payload: response });
+      dispatch({
         type: "HANDLE_TOAST",
         payload: { isOpen: true, success: true, message: "Added new item!" },
       });
     } catch (error) {
       console.log(error);
-      actionDispatch({
+      dispatch({
         type: "HANDLE_TOAST",
         payload: { isOpen: true, success: false, message: "Something went wrong!" },
       });
@@ -62,8 +63,7 @@ const Header = () => {
   };
 
   const handleResolved = () => {
-    localStorage.setItem("include_resolved", JSON.stringify({ status: !actions.isResolved }));
-    actionDispatch({ type: "INCLUDE_RESOLVED", payload: !actions.isResolved });
+    dispatch({ type: INCLUDE_RESOLVED });
     window.location.reload();
   };
 
@@ -80,7 +80,7 @@ const Header = () => {
             mx={1}
             borderColor={"green"}
             colorScheme="green"
-            isChecked={actions.isResolved}
+            isChecked={state.actions.isResolved}
             onChange={handleResolved}
           >
             Include resolved

@@ -44,14 +44,7 @@ const ListAllItems = ({ data }: { data: Domain }) => {
 
 const SingleTag = ({ name, bg = "gray" }: ISingleTag) => {
   return (
-    <Tag
-      size={"md"}
-      borderRadius="full"
-      variant="solid"
-      pb={0.9}
-      m={0.5}
-      colorScheme={bg}
-    >
+    <Tag size={"md"} borderRadius="full" variant="solid" pb={0.9} m={0.5} colorScheme={bg}>
       <TagLabel>{name}</TagLabel>
     </Tag>
   );

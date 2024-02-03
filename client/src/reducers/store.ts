@@ -1,7 +1,7 @@
-import type { StoreAction, StoreState } from "../types/store";
+import type { StoreAction, StoreState } from "../types";
 import { ADD_NEW_DOMAIN, DELETE_DOMAIN, ADD_PASSWORD, FETCHED_DATA } from "../constants";
 
-export const initialState = {
+export const storeState = {
   domains: [],
 };
 

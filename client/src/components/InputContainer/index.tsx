@@ -15,10 +15,10 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { Domain, useAddPasswordMutation, useIsPasswordExistMutation } from "../../api";
-import { useStore } from "../../context";
+import { useStore } from "../../store";
 
 const InputContainer = ({ data }: { data: Domain }) => {
-  const { actionDispatch, storeDispatch } = useStore();
+  const { dispatch } = useStore();
   const [isPasswordExistGQL] = useIsPasswordExistMutation();
   const [addPasswordGQL] = useAddPasswordMutation();
   const [isError, setError] = useState(false);
@@ -40,17 +40,17 @@ const InputContainer = ({ data }: { data: Domain }) => {
       });
 
       if (response.data?.addPassword.affectedCount == 1) {
-        storeDispatch({ type: "ADD_PASSWORD", payload: { id: `${data.id}`, password: input } });
+        dispatch({ type: "ADD_PASSWORD", payload: { id: `${data.id}`, password: input } });
         setInput("");
       } else {
-        actionDispatch({
+        dispatch({
           type: "HANDLE_TOAST",
           payload: { isOpen: true, success: false, message: "Something went wrong!" },
         });
       }
     } catch (error) {
       console.log(error);
-      actionDispatch({
+      dispatch({
         type: "HANDLE_TOAST",
         payload: { isOpen: true, success: false, message: "Something went wrong!" },
       });
@@ -77,21 +77,21 @@ const InputContainer = ({ data }: { data: Domain }) => {
     if (input.trim() == "") return;
 
     navigator.clipboard.writeText(input);
-    actionDispatch({
+    dispatch({
       type: "HANDLE_TOAST",
       payload: { isOpen: true, success: true, message: "Copied to clipboard!" },
     });
   };
 
   const handleDeleteModal = () => {
-    actionDispatch({
+    dispatch({
       type: "HANDLE_DELETE_MODAL",
       payload: { isOpen: true, data: data },
     });
   };
 
   const handleResolvedModal = () => {
-    actionDispatch({
+    dispatch({
       type: "HANDLE_RESOLVED_MODAL",
       payload: { isOpen: true, data: { ...data, password: input } },
     });

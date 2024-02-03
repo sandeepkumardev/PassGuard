@@ -5,10 +5,10 @@ import {
   INCLUDE_RESOLVED,
   IS_RESOLVED,
 } from "../constants";
-import { getOrSetValue } from "../utils/useGetOrSetValue";
-import { ActionsAction, ActionsState } from "../types/actions";
+import { ActionsAction, ActionsState } from "../types";
+import { getOrSet, set } from "../utils/localStorage";
 
-export const initialState = {
+export const actionsState = {
   deleteModal: { isOpen: false, data: null },
   resolvedModal: { isOpen: false, data: null },
   toast: { isOpen: false, success: false, message: "" },
@@ -18,11 +18,12 @@ export const initialState = {
 export function actionsReducer(state: ActionsState, action: ActionsAction): ActionsState {
   switch (action.type) {
     case IS_RESOLVED:
-      const status = getOrSetValue();
+      const { status } = getOrSet(INCLUDE_RESOLVED, JSON.stringify({ status: false }));
       return { ...state, isResolved: status };
 
     case INCLUDE_RESOLVED:
-      return { ...state, isResolved: action.payload };
+      set(INCLUDE_RESOLVED, JSON.stringify({ status: !state.isResolved }));
+      return { ...state, isResolved: !state.isResolved };
 
     case HANDLE_TOAST:
       const { isOpen, success, message } = action.payload;
